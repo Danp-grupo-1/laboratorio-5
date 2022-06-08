@@ -1,7 +1,5 @@
 package dev.araozu.laboratorio2.model
 
-import dev.araozu.laboratorio2.R
-
 object CandidatosManager {
     private val candidatos: ArrayList<Candidato> = ArrayList()
 
@@ -181,7 +179,7 @@ object CandidatosManager {
     )
     private val candidatoCay4 = Candidato(
         "Juan Carlos Callacondo Velarde",
-                Partido.Partido_Democratico_Somos_Peru,
+        Partido.Partido_Democratico_Somos_Peru,
         "https://i.imgur.com/WzoTKFbb.jpg",
         "Mas informacion:  ipsum, dolor sit amet consectetur adipisicing elit. Cum nam ab quae impedit repudiandae, sunt pariatur facere amet " +
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
@@ -482,6 +480,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.CHARACATO
     )
+
     //Candidatos
     private val candidatochi1 = Candidato(
         "Piter Vilca Gallegos",
@@ -539,6 +538,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.CHIGUATA
     )
+
     //Candidatos Jacobo Hunter
     private val candidatohunt1 = Candidato(
         "Cecilia Imelda Fuentes Guerra",
@@ -580,6 +580,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.JACOBO_HUNTER
     )
+
     //Candidatos Jose luis Bustamante y Rivero
     private val candidatojlb1 = Candidato(
         "Ronldo Pablo Ibañez Barreda",
@@ -621,6 +622,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.JOSE_LUIS_BUSTAMANTE_Y_RIVERO
     )
+
     //Candidatos Mariano Melgar
     private val candidatomm1 = Candidato(
         "Sergio Gonzales Apaza",
@@ -654,6 +656,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.MARIANO_MELGAR
     )
+
     //Candidatos Miraflores
     private val candidatomir1 = Candidato(
         "German Torres Chambi",
@@ -695,6 +698,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.MIRAFLORES
     )
+
     //Candidatos Paucarpata
     private val candidatopau1 = Candidato(
         "Marco Antonio Anco Huarachi",
@@ -712,7 +716,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.PAUCARPATA
     )
-    private val candidatopau3= Candidato(
+    private val candidatopau3 = Candidato(
         "Angel David Condori",
         Partido.Partido_Democratico_Somos_Peru,
         "https://i.imgur.com/2lWpbsub.jpg",
@@ -736,6 +740,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.PAUCARPATA
     )
+
     //candidatos de
     private val candidatosab1 = Candidato(
         "Herless Ronald Diaz Perea",
@@ -777,6 +782,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.SABANDIA
     )
+
     // Candidatos Sachaca
     private val candidatosach1 = Candidato(
         "Evaristo Florentino Calderon Nuñez",
@@ -818,6 +824,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.SACHACA
     )
+
     //Candidatos Socabaya
     private val candidatosoc1 = Candidato(
         "Zacarias Pfoccori Pumacallahue",
@@ -859,6 +866,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.SOCABAYA
     )
+
     //Candidatos Tiabaya
     private val candidatotia1 = Candidato(
         "Julio Renato Marca Mamani",
@@ -942,6 +950,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.UCHUMAYO
     )
+
     //Candidatos Ynahuara
     private val candidatoyana1 = Candidato(
         "Ernesto Jesus Montoya Mogrovejo",
@@ -983,6 +992,7 @@ object CandidatosManager {
                 "obcaecati iusto repellat, officiis incidunt rerum nesciunt necessitatibus? Culpa voluptas autem excepturi!",
         Distrito.YANAHUARA
     )
+
     //Candidatos Yura
     private val candidatoyur1 = Candidato(
         "Mirtha Mavel Ruelas Casillas",
@@ -1102,11 +1112,11 @@ object CandidatosManager {
         candidatos.add(candidatohunt4)
         candidatos.add(candidatohunt5)
         //Candidatos Jose Luis Bustamente y Rivero
-        candidatos.add( candidatojlb1)
-        candidatos.add( candidatojlb2)
-        candidatos.add( candidatojlb3)
-        candidatos.add( candidatojlb4)
-        candidatos.add( candidatojlb5)
+        candidatos.add(candidatojlb1)
+        candidatos.add(candidatojlb2)
+        candidatos.add(candidatojlb3)
+        candidatos.add(candidatojlb4)
+        candidatos.add(candidatojlb5)
         //Candiadtos Mariano Melgar
         candidatos.add(candidatomm1)
         candidatos.add(candidatomm2)
@@ -1124,58 +1134,50 @@ object CandidatosManager {
         candidatos.add(candidatopau3)
         candidatos.add(candidatopau4)
         candidatos.add(candidatopau5)
-    //Candidatos Sabandia
+        //Candidatos Sabandia
         candidatos.add(candidatosab1)
         candidatos.add(candidatosab2)
         candidatos.add(candidatosab3)
         candidatos.add(candidatosab4)
         candidatos.add(candidatosab5)
-     //Candidatos Sachaca
-        candidatos.add( candidatosach1)
-        candidatos.add( candidatosach2)
-        candidatos.add( candidatosach3)
-        candidatos.add( candidatosach4)
-        candidatos.add( candidatosach5)
-     //Candidatos Socabaya
-        candidatos.add( candidatosoc1)
-        candidatos.add( candidatosoc2)
-        candidatos.add( candidatosoc3)
-        candidatos.add( candidatosoc4)
-        candidatos.add( candidatosoc5)
+        //Candidatos Sachaca
+        candidatos.add(candidatosach1)
+        candidatos.add(candidatosach2)
+        candidatos.add(candidatosach3)
+        candidatos.add(candidatosach4)
+        candidatos.add(candidatosach5)
+        //Candidatos Socabaya
+        candidatos.add(candidatosoc1)
+        candidatos.add(candidatosoc2)
+        candidatos.add(candidatosoc3)
+        candidatos.add(candidatosoc4)
+        candidatos.add(candidatosoc5)
 
-    //Candidatos Tiabaya
+        //Candidatos Tiabaya
         candidatos.add(candidatotia1)
         candidatos.add(candidatotia2)
         candidatos.add(candidatotia3)
         candidatos.add(candidatotia4)
         candidatos.add(candidatotia5)
 
-    //Candidatos Uchumayo
+        //Candidatos Uchumayo
         candidatos.add(candidatouchu1)
         candidatos.add(candidatouchu2)
         candidatos.add(candidatouchu3)
         candidatos.add(candidatouchu4)
         candidatos.add(candidatouchu5)
-    //Candidatos Ynahuara
+        //Candidatos Ynahuara
         candidatos.add(candidatoyana1)
         candidatos.add(candidatoyana2)
         candidatos.add(candidatoyana3)
         candidatos.add(candidatoyana4)
         candidatos.add(candidatoyana5)
-    //Candidatos Yura
+        //Candidatos Yura
         candidatos.add(candidatoyur1)
         candidatos.add(candidatoyur2)
         candidatos.add(candidatoyur3)
         candidatos.add(candidatoyur3)
         candidatos.add(candidatoyur5)
-    }
-
-    fun getCandidatosPorDistrito(distrito: Distrito): List<Candidato> {
-        return candidatos.filter { it.distrito == distrito }
-    }
-
-    fun getCandidatosPorPartido(partido: Partido): List<Candidato> {
-        return candidatos.filter { it.partido == partido }
     }
 
 }

@@ -5,39 +5,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import dev.araozu.laboratorio2.model.Candidato
-import dev.araozu.laboratorio2.model.CandidatosManager
-import dev.araozu.laboratorio2.model.Distrito
-import dev.araozu.laboratorio2.model.Partido
+import dev.araozu.laboratorio2.model.*
 
-val candidatoDefecto = Candidato(
-    nombre = "No se ha encontrado ningún candidato.",
-    partido = Partido.NINGUNO,
-    foto = "http://www.clipartbest.com/cliparts/LTK/zRE/LTKzREpGc.png",
-    biografia = "",
-    distrito = Distrito.AREQUIPA,
-)
 
 /**
  * Muestra una tarjeta de un candidato
@@ -64,7 +45,7 @@ fun TarjetaCandidato(candidato: Candidato) {
                 contentDescription = "Imagen de perfil",
                 modifier = Modifier
                     .height(150.dp)
-                    // .clip(CircleShape),
+                // .clip(CircleShape),
             )
             Spacer(modifier = Modifier.width(10.dp))
             Column(
@@ -135,17 +116,14 @@ fun ListCandidatosDistrito(
     distritoStr: String,
     navController: NavController,
 ) {
-    val distrito = Distrito.fromString(distritoStr)
-    val listaCandidatos: List<Candidato> =
-        if (distrito == null) {
-            arrayListOf(candidatoDefecto)
-        } else {
-            val candidatos = CandidatosManager.getCandidatosPorDistrito(distrito)
-            candidatos.ifEmpty { arrayListOf(candidatoDefecto) }
-        }
+    /*
+    val db = AppDatabase.getDatabase(LocalContext.current)
+
+    val distrito = Distrito.fromString(distritoStr)!!
+    val listaCandidatos: List<Candidato> = db.candidatoDao().getByDistrito(distrito)
 
     ListaCandidatos(
-        titulo = distrito?.toString() ?: "Distritos",
+        titulo = distrito.toString(),
         lista = listaCandidatos,
         onBack = {
             navController.navigate(
@@ -153,6 +131,9 @@ fun ListCandidatosDistrito(
             )
         },
     )
+
+     */
+    Text("D:")
 }
 
 
@@ -164,12 +145,22 @@ fun ListCandidatosPartido(
     partidoStr: String,
     navController: NavController,
 ) {
-    val partido = Partido.fromString(partidoStr)
-    val listaCandidatos: List<Candidato> =
-        CandidatosManager
-            .getCandidatosPorPartido(partido)
-            .ifEmpty { arrayListOf(candidatoDefecto) }
+    /*
+    val db = AppDatabase.getDatabase(LocalContext.current)
 
+    val ctx = rememberCoroutineScope()
+
+    val partido by remember {
+        mutableStateOf<List<Candidato>>(listOf())
+    }
+
+     */
+
+    // val partido = db.partidoDao().getByName(partidoStr)
+
+    // val listaCandidatos: List<Candidato> = db.candidatoDao().getByPartido(partido.nombre)
+
+    /*
     ListaCandidatos(
         titulo = partido.toString(),
         lista = listaCandidatos,
@@ -179,4 +170,8 @@ fun ListCandidatosPartido(
             )
         },
     )
+
+     */
+    Text("D:")
 }
+

@@ -1,10 +1,12 @@
 package dev.araozu.laboratorio2.model
 
 import android.content.Context
+import androidx.annotation.WorkerThread
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 @Database(
     entities = [Partido::class, Candidato::class],
@@ -16,9 +18,12 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
+
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        @WorkerThread
+        suspend fun getDatabase(context: Context): AppDatabase {
+
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
@@ -26,15 +31,21 @@ abstract class AppDatabase : RoomDatabase() {
                     "main_database"
                 ).build()
                 INSTANCE = instance
-                populate(instance)
+
+                runBlocking {
+                    launch {
+                        populate(instance)
+                    }
+                }
+
                 instance
             }
         }
 
         // Crea los partidos iniciales
-        private fun populate(db: AppDatabase) {
+        suspend private fun populate(db: AppDatabase) {
             var partidoDao = db.partidoDao()
-            partidos.forEach { partido ->
+            Partido.partidos.forEach { partido ->
                 partidoDao.insertAll(partido)
             }
         }
