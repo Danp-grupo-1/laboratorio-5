@@ -52,7 +52,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
 
             val candidatoDao = db.candidatoDao()
-            CandidatosManager.candidatos.forEach { candidato ->
+            Candidato.candidatos.forEach { candidato ->
                 candidatoDao.insertAll(candidato)
             }
         }

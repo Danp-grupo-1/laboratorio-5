@@ -1,6 +1,5 @@
 package dev.araozu.laboratorio2
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -132,7 +131,6 @@ fun ListCandidatosDistrito(
     // La lista de candidatos es reactiva, inicia vacia
     var listaCandidatos by remember { mutableStateOf(listOf<Candidato>()) }
     LaunchedEffect(s) {
-        Log.d("CANDIDATOS", "launched effect")
         val db = AppDatabase.getDatabase(ctx)
         listaCandidatos = db.candidatoDao().getByDistrito(distrito)
     }
@@ -157,22 +155,20 @@ fun ListCandidatosPartido(
     partidoStr: String,
     navController: NavController,
 ) {
-    /*
-    val db = AppDatabase.getDatabase(LocalContext.current)
+    // Obtener el contexto, para pasar a la base de datos
+    val ctx = LocalContext.current
+    val s = rememberCoroutineScope()
 
-    val ctx = rememberCoroutineScope()
+    val partido = partidoStr
 
-    val partido by remember {
-        mutableStateOf<List<Candidato>>(listOf())
+    // La lista de candidatos es reactiva, inicia vacia
+    var listaCandidatos by remember { mutableStateOf(listOf<Candidato>()) }
+
+    LaunchedEffect(s) {
+        val db = AppDatabase.getDatabase(ctx)
+        listaCandidatos = db.candidatoDao().getByPartido(partido)
     }
 
-     */
-
-    // val partido = db.partidoDao().getByName(partidoStr)
-
-    // val listaCandidatos: List<Candidato> = db.candidatoDao().getByPartido(partido.nombre)
-
-    /*
     ListaCandidatos(
         titulo = partido.toString(),
         lista = listaCandidatos,
@@ -182,8 +178,5 @@ fun ListCandidatosPartido(
             )
         },
     )
-
-     */
-    Text("D:")
 }
 
