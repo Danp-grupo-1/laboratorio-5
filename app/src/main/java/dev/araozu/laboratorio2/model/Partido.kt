@@ -1,6 +1,29 @@
 package dev.araozu.laboratorio2.model
 
+import androidx.room.*
 import java.lang.IllegalArgumentException
+
+@Entity(tableName = "partido")
+data class Partido_(
+    @PrimaryKey(autoGenerate = true) val uid: Int,
+    @ColumnInfo(name = "nombre") val nombre: String,
+    @ColumnInfo(name = "fundacion") val fundacion: Int,
+    @ColumnInfo(name = "domicilia") val domicilio: String,
+    @ColumnInfo(name = "imagen") val imagen: String
+)
+
+@Dao
+interface PartidoDao {
+    @Query("SELECT * FROM partido")
+    fun getAll(): List<Partido_>
+
+    @Insert
+    fun insertAll(vararg partidos: Partido_)
+
+    @Delete
+    fun delete(partido: Partido_)
+}
+
 
 enum class Partido {
     Arequipa_Tradicion_Futuro,

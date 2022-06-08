@@ -1,6 +1,9 @@
 package dev.araozu.laboratorio2.model
 
-import androidx.annotation.DrawableRes
+import androidx.room.ColumnInfo
+import androidx.room.Dao
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 data class Candidato(
     val nombre: String,
@@ -12,3 +15,8 @@ data class Candidato(
     val biografia: String,
     val distrito: Distrito,
 )
+
+@Dao
+interface CandidatoDao {
+
+}
