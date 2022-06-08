@@ -1,22 +1,27 @@
 package dev.araozu.laboratorio2.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Dao
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
+@Entity(tableName = "candidatos")
 data class Candidato(
-    val nombre: String,
-    val partido: Partido,
+    @PrimaryKey @ColumnInfo(name = "nombre") val nombre: String,
+    @ColumnInfo(name = "partido") val partido: Partido,
     /**
      * Una url a una foto
      */
-    val foto: String,
-    val biografia: String,
-    val distrito: Distrito,
+    @ColumnInfo(name = "foto") val foto: String,
+    @ColumnInfo(name = "biografia") val biografia: String,
+    @ColumnInfo(name = "distrito") val distrito: Distrito,
 )
 
 @Dao
 interface CandidatoDao {
+    @Query("SELECT * FROM candidatos")
+    fun getAll(): List<Candidato>
 
+    @Insert
+    fun insertAll(vararg candidato: Candidato)
+
+    @Delete
+    fun delete(candidato: Candidato)
 }

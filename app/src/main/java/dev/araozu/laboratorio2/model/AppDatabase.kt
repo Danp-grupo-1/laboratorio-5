@@ -33,7 +33,10 @@ abstract class AppDatabase : RoomDatabase() {
 
         // Crea los partidos iniciales
         private fun populate(db: AppDatabase) {
-
+            var partidoDao = db.partidoDao()
+            partidos.forEach { partido ->
+                partidoDao.insertAll(partido)
+            }
         }
     }
 
