@@ -6,10 +6,9 @@ data class Candidato(
     val nombre: String,
     val partido: Partido,
     /**
-     * Un puntero hacia un recurso del proyecto de android,
-     * obtenido con R.drawable.nombre_foto
+     * Una url a una foto
      */
-    @DrawableRes val foto: Int,
+    val foto: String,
     val biografia: String,
     val distrito: Distrito,
 )

@@ -33,7 +33,7 @@ import dev.araozu.laboratorio2.model.Partido
 val candidatoDefecto = Candidato(
     nombre = "No se ha encontrado ningún candidato.",
     partido = Partido.NINGUNO,
-    foto = R.drawable.question_mark,
+    foto = "http://www.clipartbest.com/cliparts/LTK/zRE/LTKzREpGc.png",
     biografia = "",
     distrito = Distrito.AREQUIPA,
 )
