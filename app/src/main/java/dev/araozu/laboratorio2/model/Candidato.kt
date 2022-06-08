@@ -19,6 +19,9 @@ interface CandidatoDao {
     @Insert
     suspend fun insertAll(vararg candidato: Candidato)
 
+    @Update
+    suspend fun update(candidato: Candidato)
+
     @Delete
     suspend fun delete(candidato: Candidato)
 }

@@ -130,6 +130,7 @@ fun ListCandidatosDistrito(
 
     // La lista de candidatos es reactiva, inicia vacia
     var listaCandidatos by remember { mutableStateOf(listOf<Candidato>()) }
+
     LaunchedEffect(s) {
         val db = AppDatabase.getDatabase(ctx)
         listaCandidatos = db.candidatoDao().getByDistrito(distrito)

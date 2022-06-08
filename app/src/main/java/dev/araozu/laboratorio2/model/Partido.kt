@@ -2,6 +2,24 @@ package dev.araozu.laboratorio2.model
 
 import androidx.room.*
 
+@Dao
+interface PartidoDao {
+    @Query("SELECT * FROM partidos")
+    suspend fun getAll(): List<Partido>
+
+    @Query("SELECT * FROM partidos WHERE nombre = :name")
+    suspend fun getByName(name: String): Partido
+
+    @Insert
+    suspend fun insertAll(vararg partidos: Partido)
+
+    @Update
+    suspend fun update(partido: Partido)
+
+    @Delete
+    suspend fun delete(partido: Partido)
+}
+
 @Entity(tableName = "partidos")
 data class Partido(
     @ColumnInfo(name = "nombre") val nombre: String,
@@ -172,20 +190,5 @@ data class Partido(
             Renovacion_Popular,
         )
     }
-}
-
-@Dao
-interface PartidoDao {
-    @Query("SELECT * FROM partidos")
-    suspend fun getAll(): List<Partido>
-
-    @Query("SELECT * FROM partidos WHERE nombre = :name")
-    suspend fun getByName(name: String): Partido
-
-    @Insert
-    suspend fun insertAll(vararg partidos: Partido)
-
-    @Delete
-    suspend fun delete(partido: Partido)
 }
 
