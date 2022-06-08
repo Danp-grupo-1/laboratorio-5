@@ -1,5 +1,6 @@
 package dev.araozu.laboratorio2
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -17,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import dev.araozu.laboratorio2.model.*
+import dev.araozu.laboratorio2.model.AppDatabase
+import dev.araozu.laboratorio2.model.Candidato
+import dev.araozu.laboratorio2.model.Distrito
 
 
 /**
@@ -79,7 +82,11 @@ fun TarjetaCandidato(candidato: Candidato) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListaCandidatos(titulo: String, lista: List<Candidato>, onBack: () -> Unit) {
+fun ListaCandidatos(
+    titulo: String,
+    lista: List<Candidato>,
+    onBack: () -> Unit,
+) {
     Scaffold(
         topBar = {
             SmallTopAppBar(
@@ -116,11 +123,19 @@ fun ListCandidatosDistrito(
     distritoStr: String,
     navController: NavController,
 ) {
-    /*
-    val db = AppDatabase.getDatabase(LocalContext.current)
+    // Obtener el contexto, para pasar a la base de datos
+    val ctx = LocalContext.current
+    val s = rememberCoroutineScope()
 
     val distrito = Distrito.fromString(distritoStr)!!
-    val listaCandidatos: List<Candidato> = db.candidatoDao().getByDistrito(distrito)
+
+    // La lista de candidatos es reactiva, inicia vacia
+    var listaCandidatos by remember { mutableStateOf(listOf<Candidato>()) }
+    LaunchedEffect(s) {
+        Log.d("CANDIDATOS", "launched effect")
+        val db = AppDatabase.getDatabase(ctx)
+        listaCandidatos = db.candidatoDao().getByDistrito(distrito)
+    }
 
     ListaCandidatos(
         titulo = distrito.toString(),
@@ -131,9 +146,6 @@ fun ListCandidatosDistrito(
             )
         },
     )
-
-     */
-    Text("D:")
 }
 
 

@@ -6,7 +6,7 @@ import androidx.room.*
     tableName = "candidatos",
 )
 data class Candidato(
-    @PrimaryKey @ColumnInfo(name = "nombre") val nombre: String,
+    @ColumnInfo(name = "nombre") val nombre: String,
     // Id del partido en Room
     @ColumnInfo(name = "partido") val partido: String,
     /**
@@ -15,6 +15,7 @@ data class Candidato(
     @ColumnInfo(name = "foto") val foto: String,
     @ColumnInfo(name = "biografia") val biografia: String,
     @ColumnInfo(name = "distrito") val distrito: Distrito,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
 ) {
     constructor(
         nombre: String,
@@ -23,25 +24,37 @@ data class Candidato(
         biografia: String,
         distrito: Distrito
     ) : this(nombre, partido.nombre, foto, biografia, distrito)
+
+    class Converter {
+        @TypeConverter
+        fun fromDistrito(d: Distrito): String {
+            return d.toString()
+        }
+
+        @TypeConverter
+        fun toDistrito(s: String): Distrito {
+            return Distrito.fromString(s)!!
+        }
+    }
 }
 
 @Dao
 interface CandidatoDao {
     @Query("SELECT * FROM candidatos")
-    fun getAll(): List<Candidato>
+    suspend fun getAll(): List<Candidato>
 
     @Query("SELECT * FROM candidatos WHERE nombre = :nombre")
-    fun getByNombre(nombre: String): Candidato
+    suspend fun getByNombre(nombre: String): Candidato
 
     @Query("SELECT * FROM candidatos WHERE partido = :partido")
-    fun getByPartido(partido: String): List<Candidato>
+    suspend fun getByPartido(partido: String): List<Candidato>
 
     @Query("SELECT * FROM candidatos WHERE distrito = :distrito")
-    fun getByDistrito(distrito: Distrito): List<Candidato>
+    suspend fun getByDistrito(distrito: Distrito): List<Candidato>
 
     @Insert
-    fun insertAll(vararg candidato: Candidato)
+    suspend fun insertAll(vararg candidato: Candidato)
 
     @Delete
-    fun delete(candidato: Candidato)
+    suspend fun delete(candidato: Candidato)
 }

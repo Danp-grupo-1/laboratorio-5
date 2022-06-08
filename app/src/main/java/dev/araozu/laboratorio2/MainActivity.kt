@@ -30,12 +30,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*
-        lifecycleScope.launch {
-            AppDatabase.getDatabase(this@MainActivity)
+        // Ejecutar coroutine sincrona
+        runBlocking {
+            // Crear nueva coroutine asincrona, en otro hilo
+            // para inicializar la base de datos
+            launch {
+                AppDatabase.getDatabase(this@MainActivity)
+            }
         }
-
-         */
 
         setContent {
             Proyecto1Theme {

@@ -5,6 +5,7 @@ import androidx.annotation.WorkerThread
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -12,6 +13,7 @@ import kotlinx.coroutines.runBlocking
     entities = [Partido::class, Candidato::class],
     version = 1,
 )
+@TypeConverters(Candidato.Converter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun partidoDao(): PartidoDao
     abstract fun candidatoDao(): CandidatoDao
@@ -42,11 +44,16 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Crea los partidos iniciales
+        // Crea los partidos y candidatos iniciales
         suspend private fun populate(db: AppDatabase) {
-            var partidoDao = db.partidoDao()
+            val partidoDao = db.partidoDao()
             Partido.partidos.forEach { partido ->
                 partidoDao.insertAll(partido)
+            }
+
+            val candidatoDao = db.candidatoDao()
+            CandidatosManager.candidatos.forEach { candidato ->
+                candidatoDao.insertAll(candidato)
             }
         }
     }

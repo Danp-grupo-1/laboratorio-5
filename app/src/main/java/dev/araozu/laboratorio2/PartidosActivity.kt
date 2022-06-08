@@ -50,9 +50,12 @@ fun BotonPartido(partido: Partido, navController: NavController) {
  */
 @Composable
 fun ListPartidos(navController: NavController) {
+    // Obtener el contexto, para pasar a la base de datos
     val ctx2 = LocalContext.current
+    // Scope para lanzar coroutines
     val coroutineScope = rememberCoroutineScope()
 
+    // La lista de partidos es reactiva, inicia vacia
     var lista by remember { mutableStateOf(listOf<Partido>()) }
 
     LazyColumn(
@@ -60,6 +63,7 @@ fun ListPartidos(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        // Lanzar coroutine para recuperar partidos de la base de datos
         coroutineScope.launch {
             val db = AppDatabase.getDatabase(ctx2)
             lista = db.partidoDao().getAll()

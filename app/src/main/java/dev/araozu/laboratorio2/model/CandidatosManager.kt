@@ -1,7 +1,7 @@
 package dev.araozu.laboratorio2.model
 
 object CandidatosManager {
-    private val candidatos: ArrayList<Candidato> = ArrayList()
+    val candidatos: ArrayList<Candidato> = ArrayList()
 
     // Candidatos Alto Selva Alegre
     private val candidatoAsa1 = Candidato(
