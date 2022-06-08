@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import dev.araozu.laboratorio2.model.Candidato
 import dev.araozu.laboratorio2.model.CandidatosManager
 import dev.araozu.laboratorio2.model.Distrito
@@ -59,7 +60,7 @@ fun TarjetaCandidato(candidato: Candidato) {
             // modifier = Modifier.padding(horizontal = 10.dp),
         ) {
             Image(
-                painter = painterResource(id = candidato.foto),
+                painter = rememberAsyncImagePainter(model = candidato.foto),
                 contentDescription = "Imagen de perfil",
                 modifier = Modifier
                     .height(150.dp)
