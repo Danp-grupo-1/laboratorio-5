@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import dev.araozu.laboratorio2.Components.CircularIndeterminateProgressBar
 import dev.araozu.laboratorio2.model.AppDatabase
 import dev.araozu.laboratorio2.model.Candidato
 import dev.araozu.laboratorio2.model.Distrito
@@ -202,6 +203,10 @@ fun ListCandidatosPartido(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TarjetaCandidatoView(candidato: Candidato) {
+    //Contexto
+    val ctx= LocalContext.current
+    val couritineScope= rememberCoroutineScope()
+
     ElevatedCard(
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
@@ -229,7 +234,7 @@ fun TarjetaCandidatoView(candidato: Candidato) {
                 horizontalAlignment = Alignment.End,
                 modifier = Modifier.weight(1f)
 
-            ) { IconButton(onClick = {   }) {
+            ) { IconButton(onClick = {  Toast.makeText(ctx,"Candidato ${candidato.nombre} - patido ${candidato.partido}",Toast.LENGTH_LONG).show() }) {
                 Icon(
                     imageVector = Icons.Filled.Edit,
                     contentDescription = "Editar Candidato"
@@ -239,11 +244,19 @@ fun TarjetaCandidatoView(candidato: Candidato) {
                 horizontalAlignment = Alignment.End,
 
                 ) {
-                IconButton(onClick = {   }) {
+                IconButton(onClick = {
+                    couritineScope.launch {
+                        val db=AppDatabase.getDatabase(ctx)
+                        db.candidatoDao().delete(candidato)
+
+                      }
+                    Toast.makeText(ctx,"Candidato ${candidato.nombre} eliminado",Toast.LENGTH_LONG).show()
+                }) {
                     Icon(
                         imageVector = Icons.Filled.Delete,
                         contentDescription = "Eliminar Candidato"
                     )
+
                 }
 
             }
@@ -295,6 +308,7 @@ fun ListaCandidatosView(titulo: String,navController: NavController) {
         }
     )
 }
+
 //Crear boton flotante
 @Composable
 fun FAB(navController: NavController){
@@ -320,30 +334,21 @@ fun FAB(navController: NavController){
 //Crear candidato
 @Composable
 fun crear(navController: NavController ){
-    val par= listOf<String>()
+    //Inicializar lista de distritos
+    val distritos=Distrito.values()
 
     //Contexto
     val ctx= LocalContext.current
     val couritineScope= rememberCoroutineScope()
     val s= rememberCoroutineScope()
 
-    //Inicializar lista de distritos
-    val distritos=Distrito.values()
-
-    //Inicializar lista de partidos
-    var listaPartidos   by remember { mutableStateOf(listOf<Partido>()) }
-    /*  LaunchedEffect(s){
-          val db = AppDatabase.getDatabase(ctx)
-          listaPartidos  = db.partidoDao().getAll()
-      }
-      Log.d("cantidad de partidos",listaPartidos.size.toString())
-  */
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
         , verticalArrangement = Arrangement.Center){
+        //Vista
         var nombre by remember {
             mutableStateOf(" ")
         }
@@ -385,24 +390,19 @@ fun crear(navController: NavController ){
 
         Spacer(modifier = Modifier.size(10.dp))
 
-
-        //Obtenemos el valor seleccionado del dropdown
-      // var partido= PartidoSelection(partidos =listaPartidos  )
+      var partido= PartidoSelection( )
 
         //Boton para guardar el nuevo candidato
         FilledTonalButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = {
-                /*couritineScope.launch {
+                couritineScope.launch {
                     val db=AppDatabase.getDatabase(ctx)
                     val candidato=Candidato(nombre,partido, foto, biografia, distrito)
                     db.candidatoDao().insertAll(candidato)
-                }*/
-                Log.d("Nombre",nombre)
-                Log.d("Foto",foto)
-                Log.d("Biografia",biografia)
-                Log.d("Distrito",distrito.name)
-              // Log.d("Partido",partido)
+                }
+
+
                //Retorna a la lista de candidatos(vista)
                 navController.navigate(
                     route = Destinations.CandidatosScreen.route )}) {
@@ -414,7 +414,8 @@ fun crear(navController: NavController ){
                 )
             )
         }
-    }
+
+}
 }
 
 // Creacion de Dropdown o spinner para distrito
@@ -465,8 +466,21 @@ return  distritoName
 
 // Creacion de Dropdown o spinner para partidos
 @Composable
-fun PartidoSelection(partidos:List<Partido>):String {
+fun PartidoSelection():String {
+     //Contexto
+    val ctx= LocalContext.current
+    val s= rememberCoroutineScope()
 
+    //Inicializar lista de partidos
+    var partidos   by remember { mutableStateOf(listOf<Partido>()) }
+    LaunchedEffect(s){
+        val db = AppDatabase.getDatabase(ctx)
+       partidos  = db.partidoDao().getAll()
+
+    }
+
+    //Si no hay datos en la lista partidos no se visualiza nada
+    if(partidos.size!=0){
     var partidoName: String by remember { mutableStateOf(partidos[0].nombre) }
     var expanded by remember { mutableStateOf(false) }
 
@@ -506,13 +520,12 @@ fun PartidoSelection(partidos:List<Partido>):String {
         }
     }
     //Devolvemos el nombre del partido
-    return  partidoName
+    return  partidoName}
+
+    //Devolvemos  vacio sino cumple con el if
+    return ""
 }
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    }
 
