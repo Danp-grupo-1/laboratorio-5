@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface PartidoDao {
-    @Query("SELECT * FROM partidos")
+    @Query("SELECT * FROM partidos ORDER BY nombre ASC")
     suspend fun getAll(): List<Partido>
 
     @Query("SELECT * FROM partidos WHERE nombre = :name")
@@ -18,6 +18,9 @@ interface PartidoDao {
 
     @Delete
     suspend fun delete(partido: Partido)
+
+    @Query("DELETE FROM partidos")
+    suspend fun deleteAll()
 }
 
 @Entity(tableName = "partidos")

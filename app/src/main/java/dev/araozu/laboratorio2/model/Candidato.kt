@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface CandidatoDao {
-    @Query("SELECT * FROM candidatos")
+    @Query("SELECT * FROM candidatos ORDER BY nombre ASC")
     suspend fun getAll(): List<Candidato>
 
     @Query("SELECT * FROM candidatos WHERE nombre = :nombre")
@@ -24,6 +24,9 @@ interface CandidatoDao {
 
     @Delete
     suspend fun delete(candidato: Candidato)
+
+    @Query("DELETE FROM candidatos")
+    suspend fun deleteAll()
 }
 
 @Entity(

@@ -20,7 +20,6 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-
         private var INSTANCE: AppDatabase? = null
 
         @WorkerThread
@@ -47,11 +46,13 @@ abstract class AppDatabase : RoomDatabase() {
         // Crea los partidos y candidatos iniciales
         suspend private fun populate(db: AppDatabase) {
             val partidoDao = db.partidoDao()
+            partidoDao.deleteAll()
             Partido.partidos.forEach { partido ->
                 partidoDao.insertAll(partido)
             }
 
             val candidatoDao = db.candidatoDao()
+            candidatoDao.deleteAll()
             Candidato.candidatos.forEach { candidato ->
                 candidatoDao.insertAll(candidato)
             }
