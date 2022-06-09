@@ -68,6 +68,16 @@ fun NavigationHost() {
             startDestination = Destinations.DistritosScreen.route
         ) {
             composable(
+                route = Destinations.CandidatosScreen.route
+            ) {
+                ListaCandidatosView("Candidatos",navController);
+            }
+            composable(
+                route = Destinations.CreateCandidatosScreen.route
+            ) {
+                crear(navController)
+            }
+            composable(
                 route = Destinations.DistritosScreen.route
             ) {
                 ListDistritos(navController)
@@ -105,6 +115,9 @@ fun NavigationHost() {
 // Bottom Navigation
 
 sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: String) {
+    object CandidatosBottom :
+        BottomNavItem("Candidatos", R.drawable.ic_district, Destinations.CandidatosScreen.route)
+
     object DistritosBottom :
         BottomNavItem("Distritos", R.drawable.ic_district, Destinations.DistritosScreen.route)
 
@@ -115,9 +128,10 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: S
 
 @Composable
 fun BottomNavigation(navController: NavController) {
-    val items = listOf(
+   val items = listOf(
         BottomNavItem.DistritosBottom,
         BottomNavItem.PartidosBottom,
+        BottomNavItem.CandidatosBottom,
     )
 
     NavigationBar {
