@@ -38,13 +38,13 @@ fun PartidoEditScreen(
     val ctx = LocalContext.current
     val s = rememberCoroutineScope()
 
-    var listaPartido by remember {
+    var partidoRecuperado by remember {
         mutableStateOf(Partido("no",1,"recoje","valor"))
     }
 
     LaunchedEffect(s){
         val db = AppDatabase.getDatabase(ctx)
-        listaPartido = db.partidoDao().getByName(partido)
+        partidoRecuperado = db.partidoDao().getByName(partido)
     }
 
 
@@ -61,10 +61,10 @@ fun PartidoEditScreen(
                 )
             }else{
                 EditContent(
-                    listaPartido.nombre,
-                    listaPartido.fundacion.toString(),
-                    listaPartido.domicilio,
-                    listaPartido.imagen,
+                    partidoRecuperado.nombre,
+                    partidoRecuperado.fundacion.toString(),
+                    partidoRecuperado.domicilio,
+                    partidoRecuperado.imagen,
                     navController
                 )
             }
@@ -113,29 +113,34 @@ fun EditContent(
         mutableStateOf( imagen)
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth()
+        .padding(10.dp)) {
         Spacer(modifier = Modifier.height(44.dp))
+        Text(text = "Nombre")
         TextField(
             value = nombre,
             onValueChange = {
             newText -> nombre = newText
         } )
+        Text(text = "Fundacion")
         TextField(
             value = fundacion,
             onValueChange ={
                     newText -> fundacion = newText
             } )
+        Text(text = "Domicilio")
         TextField(
             value = domicilio,
             onValueChange ={
                     newText -> domicilio = newText
             } )
+        Text(text = "Imagen")
         TextField(
             value = imagen,
             onValueChange ={
                     newText -> imagen = newText
             } )
-
+        Spacer(modifier = Modifier.height(40.dp))
 
         Button(
             onClick = {
@@ -178,30 +183,35 @@ fun AddContent(
         mutableStateOf( "")
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth()
+        .padding(10.dp)) {
         Spacer(modifier = Modifier.height(44.dp))
+        Text(text = "Nombre")
         TextField(
             value = nombre,
             onValueChange = {
                     newText -> nombre = newText
             } )
+        Text(text = "Fundacion")
         TextField(
             value = fundacion,
             onValueChange ={
                     newText -> fundacion = newText.filter { it.isDigit() }
             } )
+        Text(text = "Domicilio")
         TextField(
             value = domicilio,
             onValueChange ={
                     newText -> domicilio = newText
             } )
+        Text(text = "Imagen")
         TextField(
             value = imagen,
             onValueChange ={
                     newText -> imagen = newText
             } )
 
-
+        Spacer(modifier = Modifier.height(40.dp))
         Button(
             onClick = {
                 coroutineScope.launch{
