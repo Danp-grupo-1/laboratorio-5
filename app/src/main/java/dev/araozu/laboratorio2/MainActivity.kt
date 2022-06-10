@@ -93,6 +93,7 @@ fun NavigationHost() {
             ) {
                 ListDistritos(navController)
             }
+
             composable(
                 route = Destinations.CandidatosDistritoScreen.route,
                 arguments = listOf(navArgument("distrito") { defaultValue = "Arequipa" })
