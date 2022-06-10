@@ -123,18 +123,22 @@ fun NavigationHost() {
             composable(
                 route = Destinations.PartidoCRUDScreen.route
             ) {
-                PartidosCRUDScreen(navController)
+                ListaPartidosView("Partidos", navController)
             }
-            //
             composable(
-                route = Destinations.PartidoEditScreen.route,
+                route = Destinations.CreatePartidoScreen.route
+            ) {
+                PartidoCreate(navController)
+            }
+            composable(
+                route = Destinations.EditPartidoScreen.route,
                 arguments = listOf(navArgument("partido") {
-                    defaultValue = "Arequipa_Tradicion_Futuro"
+                    defaultValue ="Alianza"
                 })
             ) {
                 val partido = it.arguments?.getString("partido")
                 requireNotNull(partido)
-                PartidoEditScreen(partido, navController)
+                PartidoEdit(partido, navController)
             }
         }
     }
@@ -155,7 +159,7 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: S
         BottomNavItem("Partidos", R.drawable.ic_party, Destinations.PartidosScreen.route)
 
     object PartidosCRUDBottom :
-        BottomNavItem("P_CRUD", R.drawable.ic_pencil, Destinations.PartidoCRUDScreen.route)
+        BottomNavItem("Partido_CRUD", R.drawable.ic_pencil, Destinations.PartidoCRUDScreen.route)
 
 }
 

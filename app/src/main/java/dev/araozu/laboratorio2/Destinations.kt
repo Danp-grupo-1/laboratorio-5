@@ -21,7 +21,8 @@ sealed class Destinations(val route: String) {
 
     //CRUD
     object PartidoCRUDScreen : Destinations("partidos_crud_screen")
-    object PartidoEditScreen : Destinations("partidos_edit_screen/?partido={partido}") {
-        fun createRoute(partido: String) = "partidos_edit_screen/?partido=$partido"
+    object CreatePartidoScreen : Destinations("create_partido_screen")
+    object EditPartidoScreen : Destinations( "partido_edit_screen/?partido={partido}") {
+        fun createRoute(partido: String) = "partido_edit_screen/?partido=$partido"
     }
 }

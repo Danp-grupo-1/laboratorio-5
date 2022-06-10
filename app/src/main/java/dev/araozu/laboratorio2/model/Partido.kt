@@ -25,10 +25,10 @@ interface PartidoDao {
 
 @Entity(tableName = "partidos")
 data class Partido(
-    @ColumnInfo(name = "nombre") val nombre: String,
+    @ColumnInfo(name = "nombre") var nombre: String,
     @ColumnInfo(name = "fundacion") val fundacion: Int,
-    @ColumnInfo(name = "domicilia") val domicilio: String,
-    @ColumnInfo(name = "imagen") val imagen: String,
+    @ColumnInfo(name = "domicilia") var domicilio: String,
+    @ColumnInfo(name = "imagen") var imagen: String,
     @PrimaryKey(autoGenerate = true) val candidatoId: Int = 0,
 ) {
     companion object {
