@@ -72,11 +72,23 @@ fun NavigationHost() {
             ) {
                 ListaCandidatosView("Candidatos",navController);
             }
+            //-INICIO-CRUD CANDIDATOS
             composable(
                 route = Destinations.CreateCandidatosScreen.route
             ) {
                 crear(navController)
             }
+            composable(
+                route = Destinations.EditCandidatosScreen.route,
+                arguments = listOf(navArgument("candidato") {
+                    defaultValue ="Mariano Otazu Yana"
+                })
+            ) {
+                val  candidato= it.arguments?.getString("candidato")
+                requireNotNull(candidato)
+                CandidatoEdit(candidato, navController)
+            }
+            //-FIN-CRUD CANDIDATOS
             composable(
                 route = Destinations.DistritosScreen.route
             ) {

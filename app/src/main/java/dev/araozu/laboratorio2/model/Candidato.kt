@@ -33,15 +33,15 @@ interface CandidatoDao {
     tableName = "candidatos",
 )
 data class Candidato(
-    @ColumnInfo(name = "nombre") val nombre: String,
+    @ColumnInfo(name = "nombre") var nombre: String,
     // Id del partido en Room
-    @ColumnInfo(name = "partido") val partido: String,
+    @ColumnInfo(name = "partido") var partido: String,
     /**
      * Una url a una foto
      */
-    @ColumnInfo(name = "foto") val foto: String,
-    @ColumnInfo(name = "biografia") val biografia: String,
-    @ColumnInfo(name = "distrito") val distrito: Distrito,
+    @ColumnInfo(name = "foto") var foto: String,
+    @ColumnInfo(name = "biografia") var biografia: String,
+    @ColumnInfo(name = "distrito") var distrito: Distrito,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 ) {
     // Constructor secundario para compatibilidad
