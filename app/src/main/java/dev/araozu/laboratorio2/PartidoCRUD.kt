@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import dev.araozu.laboratorio2.model.AppDatabase
 import dev.araozu.laboratorio2.model.Partido
-import dev.araozu.laboratorio2.ui.theme.seed
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,26 +33,21 @@ fun TarjetaPartidoView(
     partido: Partido,
     navController: NavController
 ) {
-    val ctx= LocalContext.current
-    val couritineScope= rememberCoroutineScope()
+    val ctx = LocalContext.current
+    val couritineScope = rememberCoroutineScope()
 
     ElevatedCard(
-        shape = androidx.compose.material3.MaterialTheme.shapes.medium,
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
             .width(35.dp),
-
-        onClick = {
-
-        }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            Column(
-            ) {
-                androidx.compose.material3.Text(
+            Column {
+                Text(
                     modifier = Modifier.padding(start = 10.dp),
                     text = partido.nombre,
                     fontSize = 16.sp,
@@ -64,35 +57,38 @@ fun TarjetaPartidoView(
             Column(
                 horizontalAlignment = Alignment.End,
                 modifier = Modifier.weight(1f)
-
-            ) { IconButton(onClick = {
-                navController.navigate(
-                    route = Destinations.EditPartidoScreen.createRoute(
-                        partido.nombre
+            ) {
+                IconButton(
+                    onClick = {
+                        navController.navigate(
+                            route = Destinations.EditPartidoScreen.createRoute(
+                                partido.nombre
+                            )
+                        )
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = "Editar Partido"
                     )
-                )
-            }) {
-                androidx.compose.material3.Icon(
-                    imageVector = Icons.Filled.Edit,
-                    contentDescription = "Editar Partido"
-                )
-            }
+                }
             }
             Column(
                 horizontalAlignment = Alignment.End,
+            ) {
+                IconButton(
+                    onClick = {
+                        couritineScope.launch {
+                            val db = AppDatabase.getDatabase(ctx)
+                            db.partidoDao().delete(partido)
 
-                ) {
-                IconButton(onClick = {
-                    couritineScope.launch {
-                        val db= AppDatabase.getDatabase(ctx)
-                        db.partidoDao().delete(partido)
-
+                        }
+                        navController.navigate(
+                            route = Destinations.PartidoCRUDScreen.route
+                        )
                     }
-                    navController.navigate(
-                        route = Destinations.PartidoCRUDScreen.route )
-
-                }) {
-                    androidx.compose.material3.Icon(
+                ) {
+                    Icon(
                         imageVector = Icons.Filled.Delete,
                         contentDescription = "Eliminar Partido"
                     )
@@ -102,23 +98,24 @@ fun TarjetaPartidoView(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListaPartidosView(
     titulo: String,
-    navController: NavController) {
+    navController: NavController
+) {
 
-    val ctx= LocalContext.current
-    val s= rememberCoroutineScope()
+    val ctx = LocalContext.current
+    val s = rememberCoroutineScope()
 
     var listaPartidos by remember {
         mutableStateOf(listOf<Partido>())
     }
 
-    LaunchedEffect(s){
-        val db= AppDatabase.getDatabase(ctx)
-        listaPartidos= db.partidoDao().getAll()
+    LaunchedEffect(s) {
+        val db = AppDatabase.getDatabase(ctx)
+        listaPartidos = db.partidoDao().getAll()
     }
-
 
     Scaffold(
         modifier = Modifier
@@ -128,22 +125,23 @@ fun ListaPartidosView(
         floatingActionButton = { FABPartido(navController) },
         topBar = {
             SmallTopAppBar(
-                title = { androidx.compose.material3.Text(
-                    text = titulo,
-                    style = TextStyle(
-                        color = androidx.compose.material3.MaterialTheme.colorScheme.primary,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Medium
-                    ),
-                    modifier = Modifier.padding(vertical = 10.dp)
-                ) },
+                title = {
+                    Text(
+                        text = titulo,
+                        style = TextStyle(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Medium
+                        ),
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                },
             )
-
         },
         content = { innerPadding ->
             LazyColumn(contentPadding = innerPadding) {
                 items(listaPartidos) {
-                    TarjetaPartidoView(it,navController)
+                    TarjetaPartidoView(it, navController)
                     Spacer(modifier = Modifier.height(15.dp))
                 }
                 item {
@@ -155,36 +153,39 @@ fun ListaPartidosView(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PartidoEdit(
-    partido:String,
+    partido: String,
     navController: NavController
-){
+) {
 
     val ctx = LocalContext.current
-    val couritineScope= rememberCoroutineScope()
+    val couritineScope = rememberCoroutineScope()
     val s = rememberCoroutineScope()
 
     var partidoRecuperado by remember {
-        mutableStateOf(Partido( "", 4,"",""))
+        mutableStateOf(Partido("", 4, "", ""))
     }
 
-    LaunchedEffect(s){
+    LaunchedEffect(s) {
         val db = AppDatabase.getDatabase(ctx)
-        partidoRecuperado= db.partidoDao().getByName(partido)
+        partidoRecuperado = db.partidoDao().getByName(partido)
     }
-    if(partidoRecuperado.nombre!=""){
+    if (partidoRecuperado.nombre != "") {
         Scaffold(
             topBar = {
                 SmallTopAppBar(
-                    title = { androidx.compose.material3.Text("Editar partido") },
+                    title = { Text("Editar partido") },
                     navigationIcon = {
-                        IconButton(onClick = {
-                            navController.navigate(
-                                route = Destinations.PartidoCRUDScreen.route
-                            )
-                        }) {
-                            androidx.compose.material3.Icon(
+                        IconButton(
+                            onClick = {
+                                navController.navigate(
+                                    route = Destinations.PartidoCRUDScreen.route
+                                )
+                            }
+                        ) {
+                            Icon(
                                 imageVector = Icons.Filled.ArrowBack,
                                 contentDescription = "Localized description"
                             )
@@ -192,14 +193,15 @@ fun PartidoEdit(
                     },
                 )
             },
-            content = {
+            content = { pad ->
 
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp).padding(vertical = 20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                    , verticalArrangement = Arrangement.Center){
+                        .padding(pad),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
 
 
                     var nombre by remember {
@@ -207,13 +209,13 @@ fun PartidoEdit(
                     }
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value=nombre,
-                        onValueChange={
-                                newText-> nombre=newText
+                        value = nombre,
+                        onValueChange = { newText ->
+                            nombre = newText
 
-                    },
-                        label={
-                            androidx.compose.material3.Text(text = "Nombre partido")
+                        },
+                        label = {
+                            Text(text = "Nombre partido")
                         })
 
                     Spacer(modifier = Modifier.size(10.dp))
@@ -223,14 +225,14 @@ fun PartidoEdit(
                     }
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value=fundacion,
+                        value = fundacion,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        onValueChange={
-                                newText-> fundacion = newText
+                        onValueChange = { newText ->
+                            fundacion = newText
 
                         },
-                        label={
-                            androidx.compose.material3.Text(text = "Fundacion partido")
+                        label = {
+                            Text(text = "Fundacion partido")
                         })
 
                     Spacer(modifier = Modifier.size(10.dp))
@@ -241,13 +243,13 @@ fun PartidoEdit(
                     }
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value=domicilio,
-                        onValueChange={
-                                newText-> domicilio=newText
+                        value = domicilio,
+                        onValueChange = { newText ->
+                            domicilio = newText
 
                         },
-                        label={
-                            androidx.compose.material3.Text(text = "Domicilio partido")
+                        label = {
+                            Text(text = "Domicilio partido")
                         })
 
                     Spacer(modifier = Modifier.size(10.dp))
@@ -257,13 +259,13 @@ fun PartidoEdit(
                     }
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value=imagen,
-                        onValueChange={
-                                newText-> imagen=newText
+                        value = imagen,
+                        onValueChange = { newText ->
+                            imagen = newText
 
                         },
-                        label={
-                            androidx.compose.material3.Text(text = "Imagen partido")
+                        label = {
+                            Text(text = "Imagen partido")
                         })
 
                     Spacer(modifier = Modifier.size(10.dp))
@@ -272,16 +274,19 @@ fun PartidoEdit(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = {
                             couritineScope.launch {
-                                val db= AppDatabase.getDatabase(ctx)
-                                partidoRecuperado.nombre=nombre
-                                //partidoRecuperado.fundacion=fundacion.toInt()
-                                partidoRecuperado.domicilio=domicilio
-                                partidoRecuperado.imagen=imagen
+                                val db = AppDatabase.getDatabase(ctx)
+                                partidoRecuperado.nombre = nombre
+
+                                partidoRecuperado.domicilio = domicilio
+                                partidoRecuperado.imagen = imagen
                                 db.partidoDao().update(partidoRecuperado)
                             }
                             navController.navigate(
-                                route = Destinations.PartidoCRUDScreen.route )}) {
-                        androidx.compose.material3.Text(
+                                route = Destinations.PartidoCRUDScreen.route
+                            )
+                        }
+                    ) {
+                        Text(
                             text = "Actualizar",
                             textAlign = TextAlign.Center,
                             style = TextStyle(
@@ -299,25 +304,26 @@ fun PartidoEdit(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PartidoCreate(
     navController: NavController
-){
+) {
 
-    val ctx= LocalContext.current
-    val couritineScope= rememberCoroutineScope()
+    val ctx = LocalContext.current
+    val couritineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
             SmallTopAppBar(
-                title = { androidx.compose.material3.Text("Crear partido") },
+                title = { Text("Crear partido") },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.navigate(
                             route = Destinations.PartidoCRUDScreen.route
                         )
                     }) {
-                        androidx.compose.material3.Icon(
+                        Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Localized description"
                         )
@@ -326,22 +332,23 @@ fun PartidoCreate(
             )
 
         },
-        content = {
+        content = { pad ->
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp).padding(vertical = 20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-                , verticalArrangement = Arrangement.Center){
+                    .padding(pad),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 //Vista
                 var nombre by remember {
                     mutableStateOf("")
                 }
-                TextField( modifier = Modifier
-                    .fillMaxWidth(),value=nombre,onValueChange={ newText->
-                    nombre=newText
-                }, label={
-                        androidx.compose.material3.Text(text = "Nombre Partido")
+                TextField(modifier = Modifier
+                    .fillMaxWidth(), value = nombre, onValueChange = { newText ->
+                    nombre = newText
+                }, label = {
+                    Text(text = "Nombre Partido")
                 })
 
                 Spacer(modifier = Modifier.size(10.dp))
@@ -349,23 +356,27 @@ fun PartidoCreate(
                 var fundacion by remember {
                     mutableStateOf("")
                 }
-                TextField( modifier = Modifier
-                    .fillMaxWidth(),keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),value=fundacion,onValueChange={ newText->
-                    fundacion=newText
-                }, label={
-                    androidx.compose.material3.Text(text = "Fundacion Partido")
-                })
+                TextField(modifier = Modifier
+                    .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    value = fundacion,
+                    onValueChange = { newText ->
+                        fundacion = newText
+                    },
+                    label = {
+                        Text(text = "Fundacion Partido")
+                    })
 
                 Spacer(modifier = Modifier.size(10.dp))
 
                 var domicilio by remember {
                     mutableStateOf("")
                 }
-                TextField( modifier = Modifier
-                    .fillMaxWidth(),value=domicilio,onValueChange={ newText->
-                    domicilio=newText
-                }, label={
-                    androidx.compose.material3.Text(text = "Domicilio Partido")
+                TextField(modifier = Modifier
+                    .fillMaxWidth(), value = domicilio, onValueChange = { newText ->
+                    domicilio = newText
+                }, label = {
+                    Text(text = "Domicilio Partido")
                 })
 
                 Spacer(modifier = Modifier.size(10.dp))
@@ -373,25 +384,26 @@ fun PartidoCreate(
                 var imagen by remember {
                     mutableStateOf("")
                 }
-                TextField( modifier = Modifier
-                    .fillMaxWidth(),value=imagen,onValueChange={ newText->
-                    imagen=newText
-                }, label={
-                    androidx.compose.material3.Text(text = "Imagen Partido")
+                TextField(modifier = Modifier
+                    .fillMaxWidth(), value = imagen, onValueChange = { newText ->
+                    imagen = newText
+                }, label = {
+                    Text(text = "Imagen Partido")
                 })
 
                 FilledTonalButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         couritineScope.launch {
-                            val db= AppDatabase.getDatabase(ctx)
-                            val partido = Partido(nombre,fundacion.toInt(),domicilio,imagen)
+                            val db = AppDatabase.getDatabase(ctx)
+                            val partido = Partido(nombre, fundacion.toInt(), domicilio, imagen)
                             db.partidoDao().insertAll(partido)
                         }
 
-                        navController.navigate(route = Destinations.PartidoCRUDScreen.route )}
+                        navController.navigate(route = Destinations.PartidoCRUDScreen.route)
+                    }
                 ) {
-                        androidx.compose.material3.Text(
+                    Text(
                         text = "Guardar",
                         textAlign = TextAlign.Center,
                         style = TextStyle(
@@ -407,17 +419,16 @@ fun PartidoCreate(
 }
 
 @Composable
-fun FABPartido(navController: NavController){
-    val context= LocalContext.current
-    androidx.compose.material.FloatingActionButton(
+fun FABPartido(navController: NavController) {
+    FloatingActionButton(
         onClick = {
             navController.navigate(
                 route = Destinations.CreatePartidoScreen.route
             )
-        }, backgroundColor = seed,
+        },
         contentColor = Color.White,
     ) {
-        androidx.compose.material.Icon(
+        Icon(
             imageVector = Icons.Default.Add,
             contentDescription = "Add Icon"
         )

@@ -1,6 +1,5 @@
 package dev.araozu.laboratorio2
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -164,6 +164,7 @@ fun FAB(navController: NavController) {
                 route = Destinations.CreateCandidatosScreen.route
             )
         },
+        contentColor = Color.White,
     ) {
         Icon(
             imageVector = Icons.Default.Add,
@@ -275,8 +276,14 @@ fun crear(navController: NavController) {
                     onClick = {
                         couritineScope.launch {
                             val db = AppDatabase.getDatabase(ctx)
-                            val candidato = Candidato(nombre, partido, foto, biografia, distrito)
-                            Log.d("Candidato", candidato.partido + " " + candidato.distrito)
+                            val candidato = Candidato(
+                                nombre,
+                                partido,
+                                foto,
+                                biografia,
+                                distrito
+                            )
+
                             db.candidatoDao().insertAll(candidato)
                         }
 
