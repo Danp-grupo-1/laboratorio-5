@@ -1,7 +1,6 @@
 package dev.araozu.laboratorio2
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,12 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -24,7 +20,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dev.araozu.laboratorio2.model.AppDatabase
 import dev.araozu.laboratorio2.ui.theme.Proyecto1Theme
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +67,9 @@ fun NavigationHost() {
             composable(
                 route = Destinations.CandidatosScreen.route
             ) {
-                ListaCandidatosView("Candidatos",navController);
+                ListaCandidatosView("Candidatos", navController)
             }
+
             //-INICIO-CRUD CANDIDATOS
             composable(
                 route = Destinations.CreateCandidatosScreen.route
@@ -81,14 +79,15 @@ fun NavigationHost() {
             composable(
                 route = Destinations.EditCandidatosScreen.route,
                 arguments = listOf(navArgument("candidato") {
-                    defaultValue ="Mariano Otazu Yana"
+                    defaultValue = "Mariano Otazu Yana"
                 })
             ) {
-                val  candidato= it.arguments?.getString("candidato")
+                val candidato = it.arguments?.getString("candidato")
                 requireNotNull(candidato)
                 CandidatoEdit(candidato, navController)
             }
             //-FIN-CRUD CANDIDATOS
+
             composable(
                 route = Destinations.DistritosScreen.route
             ) {
@@ -165,7 +164,7 @@ sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: S
 
 @Composable
 fun BottomNavigation(navController: NavController) {
-   val items = listOf(
+    val items = listOf(
         BottomNavItem.DistritosBottom,
         BottomNavItem.PartidosBottom,
         BottomNavItem.CandidatosBottom,
